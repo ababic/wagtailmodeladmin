@@ -634,6 +634,7 @@ class IndexView(WMABaseView):
             'page_obj': page_obj,
             'object_list': page_obj.object_list,
             'has_add_permission': has_add_permission,
+            'model_name_plural': self.model_name_plural,
         }
 
         if self.is_pagemodel:
