@@ -44,12 +44,20 @@ class PermissionHelper(object):
             self.opts.app_label, get_permission_codename('delete', self.opts)
         ))
 
+    def has_content_type_permission(self, user):
+        from django.contrib.contenttypes.models import ContentType
+        from django.contrib.auth.models import Permission
+
+        c = ContentType.objects.filter(app_label = self.opts.app_label, model = self.model.__name__.lower())
+        perms = Permission.objects.filter(content_type = c)
+
+        for perm in perms:
+            if user.has_perm("%s.%s" % (self.opts.app_label, perm.codename)):
+                return True
+        return False
+
     def has_list_permission(self, user):
-        return (
-            self.has_add_permission(user) or
-            self.has_edit_permission(user) or
-            self.has_delete_permission(user)
-        )
+        return self.has_content_type_permission(user)
 
     def can_edit_object(self, user, obj):
         """
