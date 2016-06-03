@@ -196,6 +196,7 @@ class ButtonHelper(object):
         self.permission_helper = permission_helper
         self.inspect_view_enabled = inspect_view_enabled
         self.model_name = force_text(self.opts.verbose_name).lower()
+        self.model_name_plural = force_text(self.opts.verbose_name_plural).lower()
 
     def finalise_classname(self, classnames_add=[], classnames_exclude=[]):
         combined = self.default_button_classnames + classnames_add
